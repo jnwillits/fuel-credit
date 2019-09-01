@@ -10,8 +10,12 @@ import wx
 import fuel_credit_gui
 
 set_credit_label_updated = True
+credit_output_updated = True
 vehicles_updated = True
 credit_per_gal = 1
+fuel_capacity = 1
+val_slider_1 = 8
+val_slider_2 = 8
 data_dict = {}
 vehicles = []
 selected_vehicle = ''
@@ -105,6 +109,7 @@ class SetCredit(fuel_credit_gui.Dialog_set_credit):
 
     def on_button_set_credit(self, event):
         global set_credit_label_updated
+        global credit_output_updated
         global credit_per_gal
         global data_dict
         try:
@@ -113,6 +118,7 @@ class SetCredit(fuel_credit_gui.Dialog_set_credit):
             write_data('credit', credit_per_gal)
             self.textCtrl_credit_per_gallon.SetValue(str(credit_per_gal))
             set_credit_label_updated = False
+            credit_output_updated = False
             if float(credit_per_gal) < 0.01 or float(credit_per_gal) > 100:
                 wx.MessageBox(
                     'You may wish to enter a more reasonable amount.')
@@ -128,24 +134,58 @@ class Cruncher(fuel_credit_gui.MainFrame):
         ico = wx.Icon('gauge.ico', wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
         self.staticText_credit_setting_label.SetLabel(
-            f'Credit is set for: ${float(credit_per_gal):2.2f}')
+            f'Credit is set for ${float(credit_per_gal):2.2f}.')
 
         self.vehicle_chooser.Set(vehicles)
 
+    def calculate_credit(self):
+        return ((val_slider_2 - val_slider_1) / 16) * fuel_capacity * float(credit_per_gal)
+
     def on_update_ui(self, event):
         global set_credit_label_updated
+        global credit_output_updated
         global vehicles_updated
         if not set_credit_label_updated:
             self.staticText_credit_setting_label.SetLabel(
-                f'Credit is set for: ${float(credit_per_gal):2.2f}')
+                f'Credit is set for ${float(credit_per_gal):2.2f}.')
             set_credit_label_updated = True
         if not vehicles_updated:
             self.vehicle_chooser.Set(vehicles)
             vehicles_updated = True
+        if not credit_output_updated:
+            self.static_credit_output_label.SetLabel(
+                f'${self.calculate_credit():2.2f}')
+            credit_output_updated = True
+
+    def slider_label(self, val_slider):
+        tick_lablels = ['E', '1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16',
+                        '1/2', '9/16', '5/8', '11/16', '3/4', '13/16', '7/8', '15/16', 'F']
+        return tick_lablels[val_slider]
+
+    def on_slider_1(self, event):
+        global val_slider_1
+        global credit_output_updated
+        credit_output_updated = False
+        obj = event.GetEventObject()
+        val_slider_1 = obj.GetValue()
+        self.staticText_slider_1_label.SetLabel(
+            self.slider_label(val_slider_1))
+
+    def on_slider_2(self, event):
+        global val_slider_2
+        global credit_output_updated
+        credit_output_updated = False
+        obj = event.GetEventObject()
+        val_slider_2 = obj.GetValue()
+        self.staticText_slider_2_label.SetLabel(
+            self.slider_label(val_slider_2))
 
     def on_vehicle_chooser(self, event):
         global selected_vehicle
+        global credit_output_updated
+        credit_output_updated = False
         selected_vehicle = vehicles[(self.vehicle_chooser.GetSelection())]
+        fuel_capacity = data_dict[selected_vehicle]
 
     def on_menuItem_credit_amount(self, event):
         dlg = SetCredit(None)

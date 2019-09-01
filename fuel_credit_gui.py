@@ -19,7 +19,7 @@ class MainFrame ( wx.Frame ):
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Fuel Credit Calculator", pos = wx.DefaultPosition, size = wx.Size( 600,500 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
-		self.SetSizeHints( wx.Size( 600,550 ), wx.Size( 600,550 ) )
+		self.SetSizeHints( wx.Size( 610,550 ), wx.Size( 610,550 ) )
 
 		self.m_menubar1 = wx.MenuBar( 0 )
 		self.m_menu5 = wx.Menu()
@@ -134,8 +134,11 @@ class MainFrame ( wx.Frame ):
 		self.slider_1 = wx.Slider( self.m_panel2, wx.ID_ANY, 8, 0, 16, wx.DefaultPosition, wx.Size( 400,-1 ), wx.SL_AUTOTICKS|wx.SL_HORIZONTAL|wx.SL_TOP )
 		bSizer711.Add( self.slider_1, 0, wx.BOTTOM, 50 )
 
-		self.staticText_slider_1_label = wx.StaticText( self.m_panel2, wx.ID_ANY, u"1/2", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.staticText_slider_1_label = wx.StaticText( self.m_panel2, wx.ID_ANY, u"1/2", wx.Point( -1,-1 ), wx.DefaultSize, 0 )
 		self.staticText_slider_1_label.Wrap( -1 )
+
+		self.staticText_slider_1_label.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.staticText_slider_1_label.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_GRAYTEXT ) )
 
 		bSizer711.Add( self.staticText_slider_1_label, 0, wx.ALL, 5 )
 
@@ -166,6 +169,9 @@ class MainFrame ( wx.Frame ):
 
 		self.staticText_slider_2_label = wx.StaticText( self.m_panel2, wx.ID_ANY, u"1/2", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.staticText_slider_2_label.Wrap( -1 )
+
+		self.staticText_slider_2_label.SetFont( wx.Font( 16, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, False, wx.EmptyString ) )
+		self.staticText_slider_2_label.SetForegroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_GRAYTEXT ) )
 
 		bSizer71.Add( self.staticText_slider_2_label, 0, wx.ALL, 5 )
 
