@@ -1,5 +1,11 @@
 # !/usr/bin/env python
 
+"""
+Jeff's Fuel Credit Calculator
+A handy calculator utility to help a business with vehicle rental.
+Jeffrey Neil Willits  @jnwillits
+"""
+
 
 import json
 import os
@@ -13,7 +19,7 @@ set_credit_label_updated = True
 credit_output_updated = True
 vehicles_updated = True
 credit_per_gal = 1
-fuel_capacity = 1
+fuel_cap = 0
 val_slider_1 = 8
 val_slider_2 = 8
 data_dict = {}
@@ -39,9 +45,9 @@ def read_data():
         with open('fuel-credit.json') as f_obj:
             data_dict = json.load(f_obj)
     else:
-        data_dict = {"credit": 2.00, "Pickup Truck (sample)": 30}
+        data_dict = {"credit": 2.00, "Pickup Truck (sample)": '30'}
 
-    if data_dict['credit'] == None or len(data_dict) < 2:
+    if data_dict['credit'] is None or len(data_dict) < 2:
         data_dict = {"credit": 2.00, "Pickup Truck (sample)": 30}
 
     credit_per_gal = float(data_dict['credit'])
@@ -66,14 +72,14 @@ class AddVehicle(fuel_credit_gui.Dialog_set_credit):
         self.textCtrl_vehicle_name.SetValue(str(vehicles))
 
         try:
-            fuel_capacity = self.textCtrl_fuel_capacity.GetValue()
-            Decimal(fuel_capacity)
-            self.textCtrl_fuel_capacity.SetValue(str(fuel_capacity))
+            fuel_cap = self.textCtrl_fuel_cap.GetValue()
+            Decimal(fuel_cap)
+            self.textCtrl_fuel_cap.SetValue(str(fuel_cap))
             self.Close()
         except DecimalException:
             wx.MessageBox('Enter a decimal amount.')
 
-        write_data(vehicle_name, fuel_capacity)
+        write_data(vehicle_name, fuel_cap)
         vehicles = update_vehicles()
         vehicles_updated = False
         self.Close()
@@ -127,6 +133,22 @@ class SetCredit(fuel_credit_gui.Dialog_set_credit):
             wx.MessageBox('Enter a decimal amount.')
 
 
+class Usage(fuel_credit_gui.Dialog_usage):
+    def __init__(self, parent):
+        fuel_credit_gui.Dialog_usage.__init__(self, parent)
+
+    def on_button_usage_close(self, event):
+        self.Close()
+
+
+class Software(fuel_credit_gui.Dialog_software):
+    def __init__(self, parent):
+        fuel_credit_gui.Dialog_software.__init__(self, parent)
+
+    def on_button_software_close(self, event):
+        self.Close()
+
+
 class Cruncher(fuel_credit_gui.MainFrame):
     def __init__(self, parent):
         fuel_credit_gui.MainFrame.__init__(self, parent)
@@ -139,7 +161,7 @@ class Cruncher(fuel_credit_gui.MainFrame):
         self.vehicle_chooser.Set(vehicles)
 
     def calculate_credit(self):
-        return ((val_slider_2 - val_slider_1) / 16) * fuel_capacity * float(credit_per_gal)
+        return ((val_slider_2 - val_slider_1) / 16) * fuel_cap * float(credit_per_gal)
 
     def on_update_ui(self, event):
         global set_credit_label_updated
@@ -153,14 +175,17 @@ class Cruncher(fuel_credit_gui.MainFrame):
             self.vehicle_chooser.Set(vehicles)
             vehicles_updated = True
         if not credit_output_updated:
-            self.static_credit_output_label.SetLabel(
-                f'${self.calculate_credit():2.2f}')
+            if self.calculate_credit() > 0:
+                self.static_credit_output_label.SetLabel(
+                    f'${self.calculate_credit():2.2f}')
+            else:
+                self.static_credit_output_label.SetLabel('No Credit')
             credit_output_updated = True
 
     def slider_label(self, val_slider):
-        tick_lablels = ['E', '1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16',
-                        '1/2', '9/16', '5/8', '11/16', '3/4', '13/16', '7/8', '15/16', 'F']
-        return tick_lablels[val_slider]
+        labs = ['E', '1/16', '1/8', '3/16', '1/4', '5/16', '3/8', '7/16',
+                '1/2', '9/16', '5/8', '11/16', '3/4', '13/16']
+        return labs[val_slider]
 
     def on_slider_1(self, event):
         global val_slider_1
@@ -183,9 +208,10 @@ class Cruncher(fuel_credit_gui.MainFrame):
     def on_vehicle_chooser(self, event):
         global selected_vehicle
         global credit_output_updated
+        global fuel_cap
         credit_output_updated = False
         selected_vehicle = vehicles[(self.vehicle_chooser.GetSelection())]
-        fuel_capacity = data_dict[selected_vehicle]
+        fuel_cap = float(data_dict[selected_vehicle])
 
     def on_menuItem_credit_amount(self, event):
         dlg = SetCredit(None)
@@ -196,8 +222,20 @@ class Cruncher(fuel_credit_gui.MainFrame):
         dlg.Show(True)
 
     def on_menuItem_delete_vehicle(self, event):
+        global fuel_cap
         dlg = DeleteVehicle(None)
         dlg.Show(True)
+        self.static_credit_output_label.SetLabel('No Credit')
+        fuel_cap = 0
+
+    def on_menuItem_software(self, event):
+        dlg = Software(None)
+        dlg.Show(True)
+
+    def on_menuItem_usage(self, event):
+        dlg = Usage(None)
+        dlg.Show(True)
+        print('usage firing')
 
 
 if __name__ == '__main__':

@@ -38,14 +38,14 @@ class MainFrame ( wx.Frame ):
 
 		self.m_menubar1.Append( self.m_menu5, u"Setup" )
 
-		self.menu_about = wx.Menu()
-		self.menuItem_about_usage = wx.MenuItem( self.menu_about, wx.ID_ANY, u"Usage", wx.EmptyString, wx.ITEM_NORMAL )
-		self.menu_about.Append( self.menuItem_about_usage )
+		self.menu_about1 = wx.Menu()
+		self.menuItem_usage = wx.MenuItem( self.menu_about1, wx.ID_ANY, u"Usage", wx.EmptyString, wx.ITEM_NORMAL )
+		self.menu_about1.Append( self.menuItem_usage )
 
-		self.menuItem_about_software = wx.MenuItem( self.menu_about, wx.ID_ANY, u"Software", wx.EmptyString, wx.ITEM_NORMAL )
-		self.menu_about.Append( self.menuItem_about_software )
+		self.menuItem_software = wx.MenuItem( self.menu_about1, wx.ID_ANY, u"Software", wx.EmptyString, wx.ITEM_NORMAL )
+		self.menu_about1.Append( self.menuItem_software )
 
-		self.m_menubar1.Append( self.menu_about, u"About" )
+		self.m_menubar1.Append( self.menu_about1, u"About" )
 
 		self.SetMenuBar( self.m_menubar1 )
 
@@ -66,7 +66,7 @@ class MainFrame ( wx.Frame ):
 		sbSizer1211 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel2, wx.ID_ANY, u"Fuel Credit" ), wx.VERTICAL )
 
 		sbSizer1211.SetMinSize( wx.Size( 100,50 ) )
-		self.static_credit_output_label = wx.StaticText( sbSizer1211.GetStaticBox(), wx.ID_ANY, u"$X.XX", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.static_credit_output_label = wx.StaticText( sbSizer1211.GetStaticBox(), wx.ID_ANY, u"No Credit", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.static_credit_output_label.Wrap( -1 )
 
 		self.static_credit_output_label.SetFont( wx.Font( 10, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD, False, wx.EmptyString ) )
@@ -194,8 +194,8 @@ class MainFrame ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.on_menuItem_credit_amount, id = self.menuItem_credit_amount.GetId() )
 		self.Bind( wx.EVT_MENU, self.on_menuItem_add_vehicle, id = self.menuItem_add_vehicle.GetId() )
 		self.Bind( wx.EVT_MENU, self.on_menuItem_delete_vehicle, id = self.menuItem_delete_vehicle.GetId() )
-		self.Bind( wx.EVT_MENU, self.on_menuItem_about_usage, id = self.menuItem_about_usage.GetId() )
-		self.Bind( wx.EVT_MENU, self.on_menuItem_about_software, id = self.menuItem_about_software.GetId() )
+		self.Bind( wx.EVT_MENU, self.on_menuItem_usage, id = self.menuItem_usage.GetId() )
+		self.Bind( wx.EVT_MENU, self.on_menuItem_software, id = self.menuItem_software.GetId() )
 		self.m_panel2.Bind( wx.EVT_UPDATE_UI, self.on_update_ui )
 		self.vehicle_chooser.Bind( wx.EVT_CHOICE, self.on_vehicle_chooser )
 		self.slider_1.Bind( wx.EVT_SCROLL, self.on_slider_1 )
@@ -215,10 +215,10 @@ class MainFrame ( wx.Frame ):
 	def on_menuItem_delete_vehicle( self, event ):
 		event.Skip()
 
-	def on_menuItem_about_usage( self, event ):
+	def on_menuItem_usage( self, event ):
 		event.Skip()
 
-	def on_menuItem_about_software( self, event ):
+	def on_menuItem_software( self, event ):
 		event.Skip()
 
 	def on_update_ui( self, event ):
@@ -231,6 +231,145 @@ class MainFrame ( wx.Frame ):
 		event.Skip()
 
 	def on_slider_2( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class Dialog_software
+###########################################################################
+
+class Dialog_software ( wx.Dialog ):
+
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"About this software...", pos = wx.DefaultPosition, size = wx.Size( 328,300 ), style = wx.DEFAULT_DIALOG_STYLE )
+
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+		bSizer4 = wx.BoxSizer( wx.VERTICAL )
+
+		self.m_panel2 = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer5 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer27 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer30 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer30.SetMinSize( wx.Size( -1,20 ) )
+		self.staticText_software = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Fuel Credit Calculator\n\nVersion 1.2\nCopyright(c) 2019 Jeffrey Willits\n\njnwillits.com", wx.DefaultPosition, wx.Size( -1,100 ), wx.ALIGN_CENTER_HORIZONTAL )
+		self.staticText_software.Wrap( -1 )
+
+		self.staticText_software.SetMinSize( wx.Size( -1,100 ) )
+
+		bSizer30.Add( self.staticText_software, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+
+
+		bSizer27.Add( bSizer30, 0, wx.EXPAND, 5 )
+
+		bSizer32 = wx.BoxSizer( wx.VERTICAL )
+
+		self.staticText_software_2 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Fuel Credit Calculator is free software. You can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation. The Python source code is available in my GitHub repository.\n", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.staticText_software_2.Wrap( 300 )
+
+		bSizer32.Add( self.staticText_software_2, 0, wx.ALL, 5 )
+
+
+		bSizer27.Add( bSizer32, 0, wx.EXPAND, 5 )
+
+
+		bSizer5.Add( bSizer27, 1, wx.EXPAND, 5 )
+
+		bSizer7 = wx.BoxSizer( wx.VERTICAL )
+
+		self.button_usage_close = wx.Button( self.m_panel2, wx.ID_ANY, u"Close", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.button_usage_close, 1, wx.ALL|wx.ALIGN_RIGHT, 5 )
+
+
+		bSizer5.Add( bSizer7, 0, wx.EXPAND, 5 )
+
+
+		self.m_panel2.SetSizer( bSizer5 )
+		self.m_panel2.Layout()
+		bSizer5.Fit( self.m_panel2 )
+		bSizer4.Add( self.m_panel2, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+		self.SetSizer( bSizer4 )
+		self.Layout()
+
+		self.Centre( wx.BOTH )
+
+		# Connect Events
+		self.button_usage_close.Bind( wx.EVT_BUTTON, self.on_button_software_close )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def on_button_software_close( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class Dialog_usage
+###########################################################################
+
+class Dialog_usage ( wx.Dialog ):
+
+	def __init__( self, parent ):
+		wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = u"Using this program...", pos = wx.DefaultPosition, size = wx.Size( 400,199 ), style = wx.DEFAULT_DIALOG_STYLE )
+
+		self.SetSizeHints( wx.Size( 400,-1 ), wx.DefaultSize )
+
+		bSizer4 = wx.BoxSizer( wx.VERTICAL )
+
+		self.m_panel2 = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		bSizer5 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer27 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer30 = wx.BoxSizer( wx.VERTICAL )
+
+		self.staticText_usage = wx.StaticText( self.m_panel2, wx.ID_ANY, u"This utility calculates credit due when rented vehicles are returned with added fuel. Start by going to “Setup” and adding vehicle names along with fuel tank capacities. Also identify the amount to credit per gallon or liter. The data will be stored.\n\nAfter setup, follow the three-step instruction.", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.staticText_usage.Wrap( 350 )
+
+		bSizer30.Add( self.staticText_usage, 0, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+
+
+		bSizer27.Add( bSizer30, 1, wx.EXPAND, 5 )
+
+
+		bSizer5.Add( bSizer27, 1, wx.EXPAND, 5 )
+
+		bSizer7 = wx.BoxSizer( wx.VERTICAL )
+
+		self.button_usage_close = wx.Button( self.m_panel2, wx.ID_ANY, u"Close", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer7.Add( self.button_usage_close, 1, wx.ALL|wx.ALIGN_RIGHT, 5 )
+
+
+		bSizer5.Add( bSizer7, 0, wx.EXPAND, 5 )
+
+
+		self.m_panel2.SetSizer( bSizer5 )
+		self.m_panel2.Layout()
+		bSizer5.Fit( self.m_panel2 )
+		bSizer4.Add( self.m_panel2, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+		self.SetSizer( bSizer4 )
+		self.Layout()
+
+		self.Centre( wx.BOTH )
+
+		# Connect Events
+		self.button_usage_close.Bind( wx.EVT_BUTTON, self.on_button_usage_close )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def on_button_usage_close( self, event ):
 		event.Skip()
 
 
@@ -333,8 +472,8 @@ class Dialog_add_vehicle ( wx.Dialog ):
 
 		gSizer41.Add( self.staticText_fuel_capacity, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
 
-		self.textCtrl_fuel_capacity = wx.TextCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gSizer41.Add( self.textCtrl_fuel_capacity, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		self.textCtrl_fuel_cap = wx.TextCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gSizer41.Add( self.textCtrl_fuel_cap, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 
 
 		bSizer5.Add( gSizer41, 1, wx.EXPAND, 5 )
@@ -389,7 +528,7 @@ class Dialog_set_credit ( wx.Dialog ):
 
 		gSizer4 = wx.GridSizer( 1, 2, 0, 0 )
 
-		self.m_staticText25 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Credit per gallon ($):", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText25 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Credit per gallon (or L) $:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText25.Wrap( -1 )
 
 		gSizer4.Add( self.m_staticText25, 0, wx.ALL|wx.ALIGN_RIGHT|wx.ALIGN_CENTER_VERTICAL, 5 )
