@@ -24,7 +24,6 @@ class MainFrame ( wx.Frame ):
 		self.m_menubar1 = wx.MenuBar( 0 )
 		self.m_menu5 = wx.Menu()
 		self.menuItem_credit_amount = wx.MenuItem( self.m_menu5, wx.ID_ANY, u"Credit Amount", wx.EmptyString, wx.ITEM_NORMAL )
-		self.menuItem_credit_amount.SetBitmap( wx.Bitmap( u"dollar_40.png", wx.BITMAP_TYPE_ANY ) )
 		self.m_menu5.Append( self.menuItem_credit_amount )
 
 		self.m_menu1 = wx.Menu()

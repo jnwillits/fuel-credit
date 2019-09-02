@@ -81,7 +81,7 @@
                     <property name="name">m_menu5</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; dollar_40.png</property>
+                        <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>

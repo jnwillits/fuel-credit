@@ -153,8 +153,10 @@ class Cruncher(fuel_credit_gui.MainFrame):
     def __init__(self, parent):
         fuel_credit_gui.MainFrame.__init__(self, parent)
 
-        ico = wx.Icon('gauge.ico', wx.BITMAP_TYPE_ICO)
-        self.SetIcon(ico)
+        # Disabling the icon for now...
+        # ico = wx.Icon('gauge.ico', wx.BITMAP_TYPE_ICO)
+        # self.SetIcon(ico)
+
         self.staticText_credit_setting_label.SetLabel(
             f'Credit is set for ${float(credit_per_gal):2.2f}.')
 
