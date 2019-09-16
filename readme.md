@@ -1,6 +1,6 @@
 Fuel Credit Calculator
 
-Version 1.2
+Version 1.21
 (c) 2019 Jeffrey Willits
 
 
